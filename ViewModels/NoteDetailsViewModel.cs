@@ -23,7 +23,7 @@ namespace NotesKeeper.ViewModels
         [RelayCommand]
         public async Task Edit()
         {
-            await NoteService.UpdateNote(note.Id, note.Title, note.Text);
+            //await NoteService.UpdateNote(note.Id, note.Title, note.Text);
             await Back();
         }
 

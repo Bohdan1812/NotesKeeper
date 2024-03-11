@@ -34,7 +34,7 @@ namespace NotesKeeper.ViewModels
         {
             var title = await App.Current.MainPage.DisplayPromptAsync("Title", "Title");
             var text = await App.Current.MainPage.DisplayPromptAsync("Text", "Text");
-            await NoteService.AddNote(title, text);
+            //await NoteService.AddNote(title, text);
             await Refresh();
         }
 

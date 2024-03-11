@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+			 xmlns:model="clr-namespace:NotesKeeper.Models"
+			 xmlns:viewmodel="clr-namespace:NotesKeeper.ViewModels"
+			 x:Class="NotesKeeper.Pages.CategoryListPage"
+			 x:DataType="viewmodel:CategoryListViewModel"
+			 x:Name="categoryListPage">
+    
+
+	<ContentPage.BindingContext>
+		<viewmodel:CategoryListViewModel/>
+	</ContentPage.BindingContext>
+
+
+    <StackLayout>
+
+        <ListView x:Name="categoryListView"
+			IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+			ItemsSource="{Binding Categories}"
+			RefreshCommand="{Binding RefreshCommand}"
+			SelectionMode="Single"
+			HasUnevenRows="True">
+            
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:Category">
+                    <ViewCell>
+                        <toolkit:Expander>
+                            <toolkit:Expander.Header>
+                                <StackLayout 
+						            Orientation="Vertical" 
+						            Padding="25, 3, 25, 3" >
+
+                                    <StackLayout 
+                                       Orientation="Vertical"
+								       HorizontalOptions="StartAndExpand">
+
+                                        <Label 
+                                            Text="{Binding Id}" 
+									        VerticalOptions="CenterAndExpand" 
+									        LineBreakMode="TailTruncation"/>
+
+                                        <Label 
+									        Text="{Binding Name}"
+									        VerticalOptions="CenterAndExpand" 
+									        LineBreakMode="TailTruncation"/>
+                                        <HorizontalStackLayout Spacing="50">
+                                        <Button 
+						                    Text="Edit"
+						                    Command="{Binding BindingContext.UpdateCategoryCommand, Source={x:Reference categoryListPage}}"
+						                    CommandParameter="{Binding .}"
+						                    HorizontalOptions="EndAndExpand"
+						                    WidthRequest="100"/>
+
+                                        <Button 
+						                    Text="Delete" 
+						                    Command="{Binding BindingContext.RemoveCategoryCommand, Source={x:Reference categoryListPage}}" 
+						                    CommandParameter="{Binding .}"
+						                    HorizontalOptions="EndAndExpand"
+						                    WidthRequest="100"/>
+                                        </HorizontalStackLayout>
+
+                                    </StackLayout>
+                                </StackLayout>
+
+                            </toolkit:Expander.Header>
+                            <toolkit:Expander.Content>
+                                <VerticalStackLayout>
+                                    <ListView>
+
+                                    </ListView>
+                                    <Button
+                                        Text="+"
+                                        WidthRequest="50"
+                                        CornerRadius="50"/>
+
+                                </VerticalStackLayout>
+                            </toolkit:Expander.Content>
+                        </toolkit:Expander>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+        <Button
+            Text="Add Category"
+			HorizontalOptions="Center"
+			Command="{Binding BindingContext.AddCategoryCommand,  Source={x:Reference categoryListPage}}"/>
+        
+        
+    </StackLayout>
+</ContentPage>
+
+
+        

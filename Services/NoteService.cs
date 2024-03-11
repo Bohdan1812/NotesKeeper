@@ -1,10 +1,5 @@
 ﻿using NotesKeeper.Models;
 using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NotesKeeper.Services
 {
@@ -42,14 +37,17 @@ namespace NotesKeeper.Services
             return notes;
         }
 
-        public static async Task AddNote(string title, string text)
+        public static async Task AddNote(string title, string text, Guid categoryId)
         {
             await Init();
+
+            var categoty = await CategoryService.GetCategory(categoryId);
 
             var note = new Note
             {
                 Title = title,
                 Text = text,
+                CategoryId = categoryId,
                 CreatedTime = DateTime.Now,
                 UpdatedTime = DateTime.Now
             };
@@ -57,12 +55,15 @@ namespace NotesKeeper.Services
             await db.InsertAsync(note);
         }
 
-        public static async Task UpdateNote(Guid id, string title, string text)
+        public static async Task UpdateNote(Guid id, string title, string text, Guid categoryId)
         {
             var note = await GetNote(id);
 
+            var category = CategoryService.GetCategory(categoryId);
+
             note.Title = title;
             note.Text = text;
+            note.CategoryId = categoryId;
             note.UpdatedTime = DateTime.Now;
 
             await db.UpdateAsync(note);
@@ -74,6 +75,6 @@ namespace NotesKeeper.Services
 
             await db.DeleteAsync<Note>(id); 
         }
-
+ 
     }
 }
