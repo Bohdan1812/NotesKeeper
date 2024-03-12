@@ -2,8 +2,15 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-               x:Class="NotesKeeper.Pages.AddNotePopup">
+               x:Class="NotesKeeper.Pages.EditNotePopup">
     <VerticalStackLayout>
-
+        <Picker 
+            ItemsSource="{Binding Categories}"/>
+        <Editor Text="{Binding note.Title}"/>
+        <Editor Text="{Binding note.Text}"/>
+        <HorizontalStackLayout>
+            <Button Text="Edit"/>
+            <Button Text="Delete"/>
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </toolkit:Popup>

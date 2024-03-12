@@ -70,8 +70,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Pages\AddNotePopup.xaml.cs">
-	    <DependentUpon>AddNotePopup.xaml</DependentUpon>
+	  <Compile Update="Pages\EditNotePopup.xaml.cs">
+	    <DependentUpon>EditNotePopup.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -79,7 +79,7 @@
 	  <MauiXaml Update="Pages\CategoryListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\AddNotePopup.xaml">
+	  <MauiXaml Update="Pages\EditNotePopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\NoteDetailsPage.xaml">

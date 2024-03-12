@@ -1,7 +1,9 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.Input;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using NotesKeeper.Models;
+using NotesKeeper.Pages;
 using NotesKeeper.Services;
 
 namespace NotesKeeper.ViewModels
@@ -101,10 +103,20 @@ namespace NotesKeeper.ViewModels
                 await Refresh();
             }
         }
-        public string GetCategoryName(Guid id)
+
+        [RelayCommand]
+        public async Task RemoveNote(Note note)
         {
-            return CategoryService.GetCategory(id).Result.Name;
+            await NoteService.DeleteNote(note.Id);
+            await Refresh();
         }
-        
+
+        [RelayCommand]
+        public async Task ShowNoteEditPopup(Note note)
+        {
+            var editNotePopup = new EditNotePopup(note);
+            Shell.Current.CurrentPage.ShowPopup(editNotePopup);
+
+        }
     }
 }

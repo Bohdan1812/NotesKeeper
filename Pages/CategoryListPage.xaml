@@ -118,7 +118,7 @@
             </CollectionView.GroupHeaderTemplate>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Note">
-                    
+                    <HorizontalStackLayout>
                         <VerticalStackLayout>
                             <Label 
                                 Text="{Binding Title}"/>
@@ -126,6 +126,16 @@
                                 Text="{Binding Text}"/>
                             
                         </VerticalStackLayout>
+                        <Button 
+                            BackgroundColor="LightGrey"
+                            Text="Edit"
+                            Command="{Binding ShowNoteEditPopupCommand, Source={x:Reference categoryListPage}}"/>
+                        <Button 
+                            BackgroundColor="Pink"
+                            Text="Delete"
+                            Command="{Binding RemoveNoteCommand, Source={x:Reference categoryListPage}}"/>
+                    
+                    </HorizontalStackLayout>
                         
                     
                 </DataTemplate>
