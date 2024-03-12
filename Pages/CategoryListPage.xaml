@@ -16,15 +16,16 @@
 
     <StackLayout>
 
+        <!--
         <ListView x:Name="categoryListView"
 			IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-			ItemsSource="{Binding Categories}"
+			ItemsSource="{Binding NoteCategories}"
 			RefreshCommand="{Binding RefreshCommand}"
 			SelectionMode="Single"
 			HasUnevenRows="True">
             
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="model:Category">
+                <DataTemplate x:DataType="model:NoteCategory">
                     <ViewCell>
                         <toolkit:Expander>
                             <toolkit:Expander.Header>
@@ -37,12 +38,12 @@
 								       HorizontalOptions="StartAndExpand">
 
                                         <Label 
-                                            Text="{Binding Id}" 
+                                            Text="{Binding CategoryId}" 
 									        VerticalOptions="CenterAndExpand" 
 									        LineBreakMode="TailTruncation"/>
 
                                         <Label 
-									        Text="{Binding Name}"
+									        Text="{Binding CategoryName}"
 									        VerticalOptions="CenterAndExpand" 
 									        LineBreakMode="TailTruncation"/>
                                         <HorizontalStackLayout Spacing="50">
@@ -81,7 +82,55 @@
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
+        </ListView> 
+        -->
+
+        <CollectionView 
+            ItemsSource="{Binding NoteCategoryGroups}"
+            IsGrouped="True">
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="model:NoteCategoryGroup">
+                    <HorizontalStackLayout>
+                        <Label 
+                            BackgroundColor="RoyalBlue"
+                            Text="{Binding category.Name}"/>
+                        <Button 
+                            Text="Edit"
+                            Command="{Binding BindingContext.UpdateCategoryCommand, Source={x:Reference categoryListPage}}"
+                            CommandParameter="{Binding .}"
+                            HorizontalOptions="EndAndExpand"
+                            WidthRequest="100"/>
+
+                        <Button 
+                            Text="Delete" 
+                            Command="{Binding BindingContext.RemoveCategoryCommand, Source={x:Reference categoryListPage}}" 
+                            CommandParameter="{Binding .}"
+                            HorizontalOptions="EndAndExpand"
+                            WidthRequest="100"/>
+                        <Button 
+                            Text="Add Note" 
+                            Command="{Binding BindingContext.AddNoteCommand, Source={x:Reference categoryListPage}}" 
+                            CommandParameter="{Binding category}"
+                            HorizontalOptions="EndAndExpand"
+                            WidthRequest="100"/>
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Note">
+                    
+                        <VerticalStackLayout>
+                            <Label 
+                                Text="{Binding Title}"/>
+                            <Label
+                                Text="{Binding Text}"/>
+                            
+                        </VerticalStackLayout>
+                        
+                    
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
 
         <Button
