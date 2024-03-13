@@ -14,8 +14,10 @@
 		<viewmodel:CategoryListViewModel/>
 	</ContentPage.BindingContext>
 
-    
 
+
+        
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
