@@ -8,7 +8,6 @@ namespace NotesKeeper
         {
             InitializeComponent();
 
-            Routing.RegisterRoute(nameof(NoteDetailsPage), typeof(NoteDetailsPage));
         }
     }
 }
