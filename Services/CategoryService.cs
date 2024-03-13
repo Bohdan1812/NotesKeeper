@@ -68,10 +68,10 @@ namespace NotesKeeper.Services
         {
             await Init();
 
-            foreach (var note in await db.Table<Note>().ToListAsync()) 
+            var filterdedNotes = await db.Table<Note>().Where(n => n.CategoryId == id).ToListAsync();
+            foreach (var note in filterdedNotes) 
             {
-                if(note.CategoryId == id)
-                    await db.DeleteAsync<Note>(note);   
+                await NoteService.DeleteNote(note.Id); 
             }
 
             await db.DeleteAsync<Category>(id);

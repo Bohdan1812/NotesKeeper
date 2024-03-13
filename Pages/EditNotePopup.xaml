@@ -3,14 +3,50 @@
                xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                x:Class="NotesKeeper.Pages.EditNotePopup">
-    <VerticalStackLayout>
+    <VerticalStackLayout 
+        BackgroundColor="White"
+        WidthRequest="300"
+        HeightRequest="500"
+        Padding="20">
+
+        <Label
+            Text="Your Note"
+            FontSize="18"
+            FontAttributes="Bold"
+            HorizontalTextAlignment="Center"
+            Margin="0,20,0,10"/>
+        <Label x:Name="createdTime"/>
+        <Label x:Name="updatedTime"
+               Margin="0,0,0,20"/>
+        
+        <Label Text="Category"/>
+        
         <Picker 
-            ItemsSource="{Binding Categories}"/>
-        <Editor Text="{Binding note.Title}"/>
-        <Editor Text="{Binding note.Text}"/>
-        <HorizontalStackLayout>
-            <Button Text="Edit"/>
-            <Button Text="Delete"/>
-        </HorizontalStackLayout>
+            FontAttributes="Bold"
+            x:Name="categoryPicker"/>
+        
+        <Label Text="Title"/>
+        
+        <Editor 
+            FontAttributes="Bold"
+            x:Name="titleEditor"/>
+        
+        <Label Text="Text"/>
+        
+        <Editor x:Name="textEditor"/>
+
+        
+
+        <Grid 
+            Margin="40"
+            ColumnDefinitions="*,*"
+            ColumnSpacing="10"
+            >
+            <Button Text="Edit"
+                    Clicked="EditNote"
+                    Grid.Column="1"/>
+            <Button Text="Cancel"
+                    Clicked="Cancel"/>
+        </Grid>
     </VerticalStackLayout>
 </toolkit:Popup>

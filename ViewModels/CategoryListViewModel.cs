@@ -19,7 +19,7 @@ namespace NotesKeeper.ViewModels
 
         public CategoryListViewModel()
         {
-            Title = "My Notes";
+            Title = "Note Keeper";
 
             Categories = new ObservableRangeCollection<Category>();
             Notes = new ObservableRangeCollection<Note>();
@@ -75,20 +75,31 @@ namespace NotesKeeper.ViewModels
         public async Task AddCategory()
         {
             var name = await App.Current.MainPage.DisplayPromptAsync("Add category", "Name");
-            if (name != null)
+
+
+               
+            if (name != null && !Categories.Any(c => c.Name == name))
             {
                 await CategoryService.AddCategory(name);
                 await Refresh();
+
             }
+            else
+                Shell.Current.DisplayAlert("New category name error", $"There is already category with name {name}!", "OK");
         }
 
         [RelayCommand]
         public async Task RemoveCategory(NoteCategoryGroup categoryGroup)
         {
-            await CategoryService.DeleteCategory(categoryGroup.category.Id);
-            NoteCategoryGroups.Remove(categoryGroup);
+            var deleteAgreemant = await Shell.Current.DisplayAlert("Category delete alert", $"Delete category{categoryGroup.category.Name} ?\n" +
+                $" (All notes with this category also will be deleted!)", "Ok", "Cancel");
+            if (deleteAgreemant)
+            {
+                await CategoryService.DeleteCategory(categoryGroup.category.Id);
+                NoteCategoryGroups.Remove(categoryGroup);
 
-            await Refresh();
+                await Refresh();
+            }
         }
         [RelayCommand]
         public async Task UpdateCategory(NoteCategoryGroup categoryGroup)
@@ -114,9 +125,15 @@ namespace NotesKeeper.ViewModels
         [RelayCommand]
         public async Task ShowNoteEditPopup(Note note)
         {
-            var editNotePopup = new EditNotePopup(note);
-            Shell.Current.CurrentPage.ShowPopup(editNotePopup);
+            var editNotePopup = new EditNotePopup(note, Categories.ToList());
+            var editPopupResult = await Shell.Current.CurrentPage.ShowPopupAsync(editNotePopup);
+            if (editPopupResult != null)
+            {
+                var editedNote = (Note)editPopupResult;
+                await NoteService.UpdateNote(editedNote.Id, editedNote.Title, editedNote.Text, editedNote.CategoryId);
 
+                await Refresh();
+            }
         }
     }
 }

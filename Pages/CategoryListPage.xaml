@@ -6,136 +6,140 @@
 			 xmlns:viewmodel="clr-namespace:NotesKeeper.ViewModels"
 			 x:Class="NotesKeeper.Pages.CategoryListPage"
 			 x:DataType="viewmodel:CategoryListViewModel"
-			 x:Name="categoryListPage">
+			 x:Name="categoryListPage"
+             Title="{Binding Title}">
     
 
 	<ContentPage.BindingContext>
 		<viewmodel:CategoryListViewModel/>
 	</ContentPage.BindingContext>
 
+    
 
-    <StackLayout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <!--
-        <ListView x:Name="categoryListView"
-			IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-			ItemsSource="{Binding NoteCategories}"
-			RefreshCommand="{Binding RefreshCommand}"
-			SelectionMode="Single"
-			HasUnevenRows="True">
-            
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="model:NoteCategory">
-                    <ViewCell>
-                        <toolkit:Expander>
-                            <toolkit:Expander.Header>
-                                <StackLayout 
-						            Orientation="Vertical" 
-						            Padding="25, 3, 25, 3" >
-
-                                    <StackLayout 
-                                       Orientation="Vertical"
-								       HorizontalOptions="StartAndExpand">
-
-                                        <Label 
-                                            Text="{Binding CategoryId}" 
-									        VerticalOptions="CenterAndExpand" 
-									        LineBreakMode="TailTruncation"/>
-
-                                        <Label 
-									        Text="{Binding CategoryName}"
-									        VerticalOptions="CenterAndExpand" 
-									        LineBreakMode="TailTruncation"/>
-                                        <HorizontalStackLayout Spacing="50">
-                                        <Button 
-						                    Text="Edit"
-						                    Command="{Binding BindingContext.UpdateCategoryCommand, Source={x:Reference categoryListPage}}"
-						                    CommandParameter="{Binding .}"
-						                    HorizontalOptions="EndAndExpand"
-						                    WidthRequest="100"/>
-
-                                        <Button 
-						                    Text="Delete" 
-						                    Command="{Binding BindingContext.RemoveCategoryCommand, Source={x:Reference categoryListPage}}" 
-						                    CommandParameter="{Binding .}"
-						                    HorizontalOptions="EndAndExpand"
-						                    WidthRequest="100"/>
-                                        </HorizontalStackLayout>
-
-                                    </StackLayout>
-                                </StackLayout>
-
-                            </toolkit:Expander.Header>
-                            <toolkit:Expander.Content>
-                                <VerticalStackLayout>
-                                    <ListView>
-
-                                    </ListView>
-                                    <Button
-                                        Text="+"
-                                        WidthRequest="50"
-                                        CornerRadius="50"/>
-
-                                </VerticalStackLayout>
-                            </toolkit:Expander.Content>
-                        </toolkit:Expander>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView> 
-        -->
 
         <CollectionView 
             ItemsSource="{Binding NoteCategoryGroups}"
             IsGrouped="True">
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate x:DataType="model:NoteCategoryGroup">
-                    <HorizontalStackLayout>
-                        <Label 
-                            BackgroundColor="RoyalBlue"
-                            Text="{Binding category.Name}"/>
-                        <Button 
-                            Text="Edit"
-                            Command="{Binding BindingContext.UpdateCategoryCommand, Source={x:Reference categoryListPage}}"
-                            CommandParameter="{Binding .}"
-                            HorizontalOptions="EndAndExpand"
-                            WidthRequest="100"/>
 
+                    <Grid Padding="10"
+                          Margin="0,0,0,20"
+                        BackgroundColor="{StaticResource Primary}"
+                        HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width ="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label 
+                            Margin="20, 0, 0, 0"
+                            VerticalOptions="Center"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="LightYellow"
+                            Text="{Binding category.Name}"
+                            />
+                        <HorizontalStackLayout
+                                Grid.Column="1">
+                            <Button
+                                BackgroundColor="Transparent"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Text="Edit"
+                                Command="{Binding BindingContext.UpdateCategoryCommand, Source={x:Reference categoryListPage}}"
+                                CommandParameter="{Binding .}" />
+                            <Button
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                BackgroundColor="Transparent"
+                                Text="Delete" 
+                                Command="{Binding BindingContext.RemoveCategoryCommand, Source={x:Reference categoryListPage}}" 
+                                CommandParameter="{Binding .}"/>
+                        </HorizontalStackLayout>
+
+
+                    </Grid>
+                </DataTemplate>
+                    
+            </CollectionView.GroupHeaderTemplate>
+
+            <CollectionView.GroupFooterTemplate>
+                <DataTemplate x:DataType="model:NoteCategoryGroup">
+                    <StackLayout
+                        Margin="0, 20, 0, 20">
                         <Button 
-                            Text="Delete" 
-                            Command="{Binding BindingContext.RemoveCategoryCommand, Source={x:Reference categoryListPage}}" 
-                            CommandParameter="{Binding .}"
-                            HorizontalOptions="EndAndExpand"
-                            WidthRequest="100"/>
-                        <Button 
-                            Text="Add Note" 
+                            Text="+"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            FontAttributes="Bold" 
+                            FontSize="24"
+                            WidthRequest="50"
+                            HeightRequest="50"
+                            CornerRadius="30"
+                            BackgroundColor="{StaticResource PrimaryDark}"
+                       
                             Command="{Binding BindingContext.AddNoteCommand, Source={x:Reference categoryListPage}}" 
                             CommandParameter="{Binding category}"
-                            HorizontalOptions="EndAndExpand"
-                            WidthRequest="100"/>
-                    </HorizontalStackLayout>
+                            />
+                    </StackLayout>
                 </DataTemplate>
-            </CollectionView.GroupHeaderTemplate>
+            </CollectionView.GroupFooterTemplate>
+            
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Note">
-                    <HorizontalStackLayout>
-                        <VerticalStackLayout>
+                    <Grid 
+                        Margin="30,10,30,10"
+                        HorizontalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width ="*"/>
+                             <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <VerticalStackLayout 
+                            Grid.Column="0"
+                            Spacing="5">
                             <Label 
-                                Text="{Binding Title}"/>
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                Text="{Binding Title}"
+                                LineBreakMode="TailTruncation"
+                                />
                             <Label
-                                Text="{Binding Text}"/>
+                                Text="{Binding Text}"
+                                LineBreakMode="TailTruncation"/>
                             
                         </VerticalStackLayout>
-                        <Button 
-                            BackgroundColor="LightGrey"
-                            Text="Edit"
-                            Command="{Binding ShowNoteEditPopupCommand, Source={x:Reference categoryListPage}}"/>
-                        <Button 
-                            BackgroundColor="Pink"
-                            Text="Delete"
-                            Command="{Binding RemoveNoteCommand, Source={x:Reference categoryListPage}}"/>
-                    
-                    </HorizontalStackLayout>
+                        <HorizontalStackLayout 
+                            Margin="20,0,0,0"
+                            Spacing="15"
+                            Grid.Column="1">
+                            <Button 
+                                BackgroundColor="Transparent"
+                                Text="Edit"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource Tertiary}"
+                                HeightRequest="50"
+                                Command="{Binding BindingContext.ShowNoteEditPopupCommand, Source={x:Reference categoryListPage}}"
+                                CommandParameter="{Binding .}"/>
+
+                            <Button 
+                                BackgroundColor="PaleVioletRed"
+                                Text="Delete"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Command="{Binding BindingContext.RemoveNoteCommand, Source={x:Reference categoryListPage}}"
+                                CommandParameter="{Binding .}"/>
+                        </HorizontalStackLayout>
+
+                    </Grid>
                         
                     
                 </DataTemplate>
@@ -144,12 +148,15 @@
 
 
         <Button
+            Margin="40"
+            FontAttributes="Bold"
+            FontSize="18"
             Text="Add Category"
-			HorizontalOptions="Center"
+			Grid.Row="1" HorizontalOptions="CenterAndExpand"
+            CornerRadius="20"
 			Command="{Binding BindingContext.AddCategoryCommand,  Source={x:Reference categoryListPage}}"/>
         
-        
-    </StackLayout>
+    </Grid>
 </ContentPage>
 
 

@@ -10,20 +10,24 @@ namespace NotesKeeper.ViewModels
     public partial class EditNoteViewModel : BaseViewModel
     {
         public ObservableRangeCollection<Category> Categories { get; set; }
-       
+
+        [ObservableProperty]
+        public Note note;
+
 
         public EditNoteViewModel(Note note)
         {
 
             Categories = new ObservableRangeCollection<Category>();
-            Categories.AddRange(CategoryService.GetCategories().Result);
+            
             this.note = note;
-
+            InitializeAsync();
 
         }
-
-        [ObservableProperty]
-        Note note;
+        private async Task InitializeAsync()
+        {
+            Categories.AddRange(await CategoryService.GetCategories());
+        }
 
         [RelayCommand]
         Task Back() => Shell.Current.GoToAsync("..");
