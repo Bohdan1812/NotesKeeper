@@ -77,14 +77,14 @@ namespace NotesKeeper.ViewModels
             var name = await App.Current.MainPage.DisplayPromptAsync("Add category", "Name");
 
 
-               
-            if (name != null && !Categories.Any(c => c.Name == name))
+            bool nameExists = Categories.Any(c => c.Name == name);
+            if (name != null && !nameExists)
             {
                 await CategoryService.AddCategory(name);
                 await Refresh();
 
             }
-            else
+            else if(nameExists)
                 Shell.Current.DisplayAlert("New category name error", $"There is already category with name {name}!", "OK");
         }
 
